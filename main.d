@@ -20,6 +20,13 @@ printDig {
     put('0' + p[0])
 }
 
+putStr {
+    put(a[0])
+    put(a[1])
+    put(a[2])
+    put(a[3])
+}
+
 mul {
     a = p[0]
     b = p[1]
@@ -52,6 +59,7 @@ ge {
         a = a - 1
         b = b - 1
     }
+    
     if b {
         return 0
     } else {
@@ -90,25 +98,43 @@ sqrt {
     return r
 }
 
+pow {
+    a = p[0]
+    n = p[1]
+
+    r = 1
+    while n {
+        n = n - 1
+        r = mul(r a)
+    }
+
+    return r
+}
+
 printInt {
     a = p[0]
     top = 100
 
-    while g(top a) {
-        top = div(top 10)
-    }
+    if a {
+        while g(top a) {
+            top = div(top 10)
+        }
 
-    while top {
-        dv = div(a top)
-        printDig(dv)
+        while top {
+            dv = div(a top)
+            printDig(dv)
 
-        a = a - mul(dv top)
-        top = div(top 10)
+            a = a - mul(dv top)
+            top = div(top 10)
+        }
+    } else {
+        printDig(0)
     }
 }
 
 main {
     a = toDig(read())
-    printInt(sqrt(a))
+    n = toDig(read())
+    printInt(pow(a n))
     printLn()
 }

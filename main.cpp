@@ -24,13 +24,11 @@ int main() {
         state st;
         std::string code = root->encode(st);
         optimizer::optimize(code);
-        std::cout << code << std::endl;
         fout << code;
     } catch (std::runtime_error const& e) {
         std::cerr << "failed: " << e.what() << std::endl;
     } catch (...) {
         std::cerr << "failed" << std::endl;
     }
-
     return 0;
 }
