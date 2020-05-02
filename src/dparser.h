@@ -1,59 +1,41 @@
-#ifndef TEST_DPARSER_H
-#define TEST_DPARSER_H
+#ifndef DLANG_DPARSER_H
+#define DLANG_DPARSER_H
 
-#include <string>
-#include <vector>
-#include <map>
+#include <set>
 
 #include "dlexer.h"
 #include "ast.h"
 
 class dparser {
     dlexer l;
+    std::map<std::string, sh_f_p> fs;
 
 private:
-    void assert_next(TOKEN tkn);
+    void assert_next(TOKEN t);
 
-    std::string parse_identifier();
+    std::map<std::string, int> parse_args_declaration(int nargs);
 
-    sh_st_p parse_while(context* ctx);
+    std::unique_ptr<str> parse_str_value();
 
-    sh_st_p parse_if(context* ctx);
+    std::unique_ptr<call> parse_call_value(std::map<std::string, int>& args);
 
-    std::unique_ptr<func_st> parse_fun_st(context* ctx);
+    std::unique_ptr<arg> parse_arg_value(std::map<std::string, int>& args);
 
-    sh_st_p parse_set(context* ctx);
+    std::unique_ptr<chv> parse_chv_value();
 
-    void parse_fun_call(context* ctx, std::vector<sh_value_p>& sts);
+    sh_v_p parse_value(std::map<std::string, int>& args);
 
-    sh_value_p parse_string();
+    int parse_int();
 
-    std::unique_ptr<num> parse_num();
+    sh_f_p parse_declaration();
 
-    sh_value_p parse_array(context* ctx);
-
-    sh_var_p parse_variable(context* ctx, bool defined);
-
-    sh_value_p parse_char();
-
-    std::unique_ptr<arr> parse_array_subscript(context* ctx);
-
-    sh_value_p parse_expr(context* ctx);
-
-    sh_lvalue_p parse_lvalue(context* ctx, bool defined);
-
-    sh_value_p parse_value(context* ctx);
-
-    sh_st_p parse_statement(context* ctx);
-
-    void parse_block(context* ctx, std::vector<sh_st_p>& sts);
-
-    sh_func_p parse_function(context* ctx);
+    void parse_definition();
 
 public:
-    explicit dparser(dlexer lexer);
+    dparser(dlexer& l);
 
-    sh_prog_p parse();
+    sh_p_p parse();
 };
 
-#endif //TEST_DPARSER_H
+
+#endif //DLANG_DPARSER_H

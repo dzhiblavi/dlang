@@ -2,8 +2,9 @@
 #include <vector>
 #include <fstream>
 
+#include "src/dlexer.h"
 #include "src/dparser.h"
-#include "src/optimizer.h"
+
 
 using namespace std;
 
@@ -14,17 +15,12 @@ int main() {
     std::string s((std::istreambuf_iterator<char>(fin))
             , std::istreambuf_iterator<char>());
 
-    dlexer d(s);
-    dparser p(d);
-    sh_prog_p root = nullptr;
+    dlexer l(s);
+    dparser d(l);
 
     try {
-        root = p.parse();
-        std::cout << root->to_string() << std::endl;
-        state st;
-        std::string code = root->encode(st);
-        optimizer::optimize(code);
-        fout << code;
+        sh_p_p prog = d.parse();
+        std::cout << prog->to_string() << std::endl;
     } catch (std::runtime_error const& e) {
         std::cerr << "failed: " << e.what() << std::endl;
     } catch (...) {

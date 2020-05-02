@@ -27,6 +27,7 @@ enum TOKEN {
     EQ,         // =
     GR,         // >
     PLUS,       // +
+    COLON,      // :
     MINUS,      // -
     IDENT,      // identifier, (a-Z)+
     NUM,        // integral value, 0-255
@@ -38,8 +39,10 @@ public:
     typedef std::pair<TOKEN, std::string> token;
 
 private:
+    stringref base;
     stringref s;
     std::stack<token> back;
+    bool quotes = false;
 
 private:
     bool tf(stringref& tkn, std::string const& ls);
@@ -50,6 +53,8 @@ private:
 
 public:
     explicit dlexer(stringref const& sr);
+
+    void reset();
 
     token next_token();
 

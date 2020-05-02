@@ -49,7 +49,7 @@ public:
         return {};
     }
 
-    std::string str() const {
+    [[nodiscard]] std::string str() const {
         return std::string(base_, end_);
     }
 
@@ -57,15 +57,15 @@ public:
         return base_[i];
     }
 
-    bool empty() const noexcept {
+    [[nodiscard]] bool empty() const noexcept {
         return base_ == end_;
     }
 
-    char const* begin() const noexcept {
+    [[nodiscard]] char const* begin() const noexcept {
         return base_;
     }
 
-    char const* end() const noexcept {
+    [[nodiscard]] char const* end() const noexcept {
         return end_;
     }
 
