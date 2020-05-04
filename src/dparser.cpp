@@ -62,7 +62,7 @@ std::unique_ptr<str> dparser::parse_str_value() {
     return std::make_unique<str>(v);
 }
 
-std::unique_ptr<call> dparser::parse_call_value(std::map<std::string, int>& args) {
+std::unique_ptr<call> dparser::parse_call_value(std::map<std::string, int>& args, int depth) {
     assert_next(IDENT);
     std::string const& fname = l.next_token().second;
 
@@ -72,47 +72,47 @@ std::unique_ptr<call> dparser::parse_call_value(std::map<std::string, int>& args
 
     std::unique_ptr<call> c = std::make_unique<call>(f);
     for (int i = 0; i < f->nargs; ++i) {
-        c->args.push_back(parse_value(args));
+        c->args.push_back(parse_value(args, depth + 1));
     }
     return c;
 }
 
-std::unique_ptr<arg> dparser::parse_arg_value(std::map<std::string, int>& args) {
+std::unique_ptr<arg> dparser::parse_arg_value(std::map<std::string, int>& args, int depth) {
     assert_next(IDENT);
     std::string const& name = l.next_token().second;
 
     if (args.find(name) == args.end())
         fail("unknown identifier: " + name);
 
-    return std::make_unique<arg>(name, args[name]);
+    return std::make_unique<arg>(name, args[name], depth);
 }
 
-std::unique_ptr<chv> dparser::parse_chv_value() {
-    assert_next(QS);
+std::unique_ptr<ife> dparser::parse_ife_value(std::map<std::string, int>& args, int depth) {
+    assert_next(IF);
     l.next_token();
-    dlexer::token t = l.next_token();
-    char c;
-    if (t.second.size() != 1)
-        fail("invalid character: " + t.second);
-    c = t.second[0];
-    assert_next(QS);
+    sh_v_p cond = parse_value(args, depth);
+    assert_next(THEN);
     l.next_token();
-    return std::make_unique<chv>(c);
+    sh_v_p pos = parse_value(args, depth);
+    assert_next(ELSE);
+    l.next_token();
+    sh_v_p neg = parse_value(args, depth);
+    return std::make_unique<ife>(cond, pos, neg);
 }
 
-sh_v_p dparser::parse_value(std::map<std::string, int>& args) {
+sh_v_p dparser::parse_value(std::map<std::string, int>& args, int depth) {
     dlexer::token t = l.lookup();
 
     switch (t.first) {
+        case IF:
+            return sh_v_p(parse_ife_value(args, depth).release());
         case QT:
             return sh_v_p(parse_str_value().release());
-        case QS:
-            return sh_v_p(parse_chv_value().release());
         case IDENT:
             if (args.find(t.second) != args.end())
-                return sh_v_p(parse_arg_value(args).release());
+                return sh_v_p(parse_arg_value(args, depth).release());
             else
-                return sh_v_p(parse_call_value(args).release());
+                return sh_v_p(parse_call_value(args, depth).release());
         default:
             fail("value not supported: " + t.second);
     }
@@ -136,7 +136,7 @@ void dparser::parse_definition() {
     if (l.next_token().first != EQ)
         fail("'=' expected; found: " + l.lookup().second);
 
-    f->value = parse_value(args);
+    f->value = parse_value(args, 0);
 }
 
 sh_p_p dparser::parse() {

@@ -40,6 +40,8 @@ dlexer::token dlexer::next_token() {
             return { IF, token.str() };
         } else if (token == "else") {
             return { ELSE, token.str() };
+        } else if (token == "then") {
+            return { THEN, token.str() };
         }
         return { IDENT, token.str() };
     } else if (tf(token, "+")) {
@@ -56,18 +58,12 @@ dlexer::token dlexer::next_token() {
         return { SOP, token.str() };
     } else if (tf(token, "]")) {
         return { SCL, token.str() };
-//    } else if (tf(token, "}")) {
-//        return { CCL, token.str() };
-//    } else if (tf(token, "{")) {
-//        return { COP, token.str() };
     } else if (tf(token, "\"")) {
         return { QT, token.str() };
     } else if (tf(token, "'")) {
         return { QS, token.str() };
     } else if (tf(token, ",")) {
         return {COMMA, token.str()};
-//    } else if (tf(token, ">")) {
-//        return { GR, token.str() };
     } else if (tf(token, ":")) {
         return { COLON, token.str() };
     } else if (!s.empty()) {

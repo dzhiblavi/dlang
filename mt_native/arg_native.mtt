@@ -1,0 +1,37 @@
+% pre: index on the first character of value to be copied
+% post: index on the first character of the copied value
+
+__arg_copy_@ # -> __arg_finalize0_@ # ^
+__arg_copy_@ $ -> __arg_copy0_@ $ >
+__arg_copy_@ * -> __arg_copy0_@ * >
+
+__arg_copy0_@ $ -> __arg_copy1_@ $ <
+__arg_copy0_@ # -> __arg_copy1_@ # <
+__arg_copy0_@ * -> __arg_copy0_@ * >
+
+__arg_copy1_@ $ -> __arg_finalize0_@ $ >
+__arg_copy1_@ # -> __arg_finalize0_@ # >
+
+__arg_copy1_@ 0 -> __arg_copy20_@ 2 <
+__arg_copy1_@ 1 -> __arg_copy21_@ 3 <
+
+__arg_copy2*_@ _ -> __arg_copy3_@ * >
+__arg_copy2*_@ ~ -> __arg_copy2*_@ ~ <
+__arg_copy2*_@ # -> __arg_copy2*_@ # <
+__arg_copy2*_@ $ -> __arg_copy2*_@ $ <
+
+__arg_copy3_@ 2 -> __arg_copy1_@ 2 <
+__arg_copy3_@ 3 -> __arg_copy1_@ 3 <
+__arg_copy3_@ * -> __arg_copy3_@ * >
+__arg_copy3_@ $ -> __arg_copy3_@ $ >
+__arg_copy3_@ # -> __arg_copy3_@ # >
+
+__arg_finalize0_@ $ -> __arg_finalize1_@ $ <
+__arg_finalize0_@ # -> __arg_finalize1_@ # <
+__arg_finalize0_@ 2 -> __arg_finalize0_@ 0 >
+__arg_finalize0_@ 3 -> __arg_finalize0_@ 1 >
+
+__arg_finalize1_@ _ -> & _ >
+__arg_finalize1_@ * -> __arg_finalize1_@ * <
+__arg_finalize1_@ $ -> __arg_finalize1_@ $ <
+__arg_finalize1_@ # -> __arg_finalize1_@ # <

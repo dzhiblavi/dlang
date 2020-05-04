@@ -1,0 +1,30 @@
+% template of return at. states
+% result$arg#arg$ -> result$
+
+__native_return_@ $ -> __native_return00_@ $ <
+__native_return_@ * -> __native_return00_@ * <
+
+__native_return00_@ _ -> __native_return0_@ % >
+
+__native_return0_@ $ -> __native_return1_@ _ >
+__native_return0_@ * -> __native_return0_@ * >
+
+__native_return1_@ $ -> __copyrt0_@ _ ^
+__native_return1_@ # -> __native_return1_@ _ >
+__native_return1_@ * -> __native_return1_@ _ >
+
+__copyrt0_@ % -> __rfinalize_@ _ >
+__copyrt0_@ _ -> __copyrt0_@ _ <
+__copyrt0_@ * -> __copyrt*1_@ _ >
+
+__copyrt*1_@ $ -> __copyrt*2_@ $ <
+__copyrt*1_@ # -> __copyrt*2_@ # <
+__copyrt*1_@ ~ -> __copyrt*2_@ ~ <
+__copyrt*1_@ _ -> __copyrt*1_@ _ >
+
+__copyrt*2_@ _ -> __copyrt0_@ * <
+
+__rfinalize_@ * -> & * ^
+__rfinalize_@ $ -> & $ ^
+__rfinalize_@ # -> & # ^
+__rfinalize_@ _ -> __rfinalize_@ _ >

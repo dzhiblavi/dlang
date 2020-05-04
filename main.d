@@ -1,8 +1,7 @@
-main : 0
-add : 2
-sub : 2
-mul : 2
-print : 1
+main : 2
+f : 3
 
-main = add "abc" sub "def" 'a'
+main a b = f a "" b
+
+f x y z = y
 

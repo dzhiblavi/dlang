@@ -1,0 +1,5 @@
+% template of at. clearing values to the closest # or $
+
+__clear_@ * -> __clear_@ _ >
+__clear_@ # -> & # <
+__clear_@ $ -> & $ <

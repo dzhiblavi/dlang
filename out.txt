@@ -1,0 +1,324 @@
+
+start: __native_entry
+accept: __native_fin
+reject: __native_err
+blank: _
+
+
+__native_entry 0 -> __native_entry0 0 <
+__native_entry 1 -> __native_entry0 1 <
+__native_entry _ -> func_main $ ^
+__native_entry0 _ -> func_main $ ^
+
+
+func_main $ -> __call_f_0 $ <
+
+__call_f_0 _ -> __put_arg_0_0 $ <
+
+__put_arg_0_0 _ -> __arg_1 _ ^
+__put_arg_1_0 _ -> __str_2_0 _ ^
+__put_arg_2_0 _ -> __arg_3 _ ^
+
+
+__arg_copy_6 # -> __arg_finalize0_6 # ^
+__arg_copy_6 $ -> __arg_copy0_6 $ >
+__arg_copy_6 0 -> __arg_copy0_6 0 >
+__arg_copy_6 1 -> __arg_copy0_6 1 >
+
+__arg_copy0_6 $ -> __arg_copy1_6 $ <
+__arg_copy0_6 # -> __arg_copy1_6 # <
+__arg_copy0_6 0 -> __arg_copy0_6 0 >
+__arg_copy0_6 1 -> __arg_copy0_6 1 >
+
+__arg_copy1_6 $ -> __arg_finalize0_6 $ >
+__arg_copy1_6 # -> __arg_finalize0_6 # >
+
+__arg_copy1_6 0 -> __arg_copy20_6 2 <
+__arg_copy1_6 1 -> __arg_copy21_6 3 <
+
+__arg_copy20_6 _ -> __arg_copy3_6 0 >
+__arg_copy21_6 _ -> __arg_copy3_6 1 >
+__arg_copy20_6 0 -> __arg_copy20_6 0 <
+__arg_copy20_6 1 -> __arg_copy20_6 1 <
+__arg_copy21_6 0 -> __arg_copy21_6 0 <
+__arg_copy21_6 1 -> __arg_copy21_6 1 <
+__arg_copy20_6 # -> __arg_copy20_6 # <
+__arg_copy21_6 # -> __arg_copy21_6 # <
+__arg_copy20_6 $ -> __arg_copy20_6 $ <
+__arg_copy21_6 $ -> __arg_copy21_6 $ <
+
+__arg_copy3_6 2 -> __arg_copy1_6 2 <
+__arg_copy3_6 3 -> __arg_copy1_6 3 <
+__arg_copy3_6 0 -> __arg_copy3_6 0 >
+__arg_copy3_6 1 -> __arg_copy3_6 1 >
+__arg_copy3_6 $ -> __arg_copy3_6 $ >
+__arg_copy3_6 # -> __arg_copy3_6 # >
+
+__arg_finalize0_6 $ -> __arg_finalize1_6 $ <
+__arg_finalize0_6 # -> __arg_finalize1_6 # <
+__arg_finalize0_6 2 -> __arg_finalize0_6 0 >
+__arg_finalize0_6 3 -> __arg_finalize0_6 1 >
+
+__arg_finalize1_6 _ -> __sh_4 _ >
+__arg_finalize1_6 0 -> __arg_finalize1_6 0 <
+__arg_finalize1_6 1 -> __arg_finalize1_6 1 <
+__arg_finalize1_6 $ -> __arg_finalize1_6 $ <
+__arg_finalize1_6 # -> __arg_finalize1_6 # <
+__skip_args07 0 -> __skip_args07 0 >
+__skip_args07 1 -> __skip_args07 1 >
+__skip_args07 # -> __arg_copy_6 # >
+__skip_call08 # -> __skip_call08 # >
+__skip_call08 _ -> __skip_call08 _ >
+__skip_call08 0 -> __skip_call08 0 >
+__skip_call08 1 -> __skip_call08 1 >
+__skip_call08 $ -> __skip_call19 $ >
+__skip_call19 # -> __skip_call19 # >
+__skip_call19 _ -> __skip_call19 _ >
+__skip_call19 0 -> __skip_call19 0 >
+__skip_call19 1 -> __skip_call19 1 >
+__skip_call19 $ -> __skip_args07 $ >
+__arg_1 _ -> __skip_call08 _ ^
+
+__sh_4 $ -> __sh_5 $ <
+
+__sh_4 _ -> __sh_5 _ ^
+
+__sh_4 # -> __sh_5 # <
+
+__sh_4 0 -> __sh_5 0 <
+__sh_4 1 -> __sh_5 1 <
+
+__sh_5 _ -> __put_arg_1_0 # <
+
+__str_2_0 _ -> __sh_10 _ ^
+__sh_10 $ -> __sh_11 $ <
+
+__sh_10 _ -> __sh_11 _ ^
+
+__sh_10 # -> __sh_11 # <
+
+__sh_10 0 -> __sh_11 0 <
+__sh_10 1 -> __sh_11 1 <
+
+__sh_11 _ -> __put_arg_2_0 # <
+
+
+__arg_copy_14 # -> __arg_finalize0_14 # ^
+__arg_copy_14 $ -> __arg_copy0_14 $ >
+__arg_copy_14 0 -> __arg_copy0_14 0 >
+__arg_copy_14 1 -> __arg_copy0_14 1 >
+
+__arg_copy0_14 $ -> __arg_copy1_14 $ <
+__arg_copy0_14 # -> __arg_copy1_14 # <
+__arg_copy0_14 0 -> __arg_copy0_14 0 >
+__arg_copy0_14 1 -> __arg_copy0_14 1 >
+
+__arg_copy1_14 $ -> __arg_finalize0_14 $ >
+__arg_copy1_14 # -> __arg_finalize0_14 # >
+
+__arg_copy1_14 0 -> __arg_copy20_14 2 <
+__arg_copy1_14 1 -> __arg_copy21_14 3 <
+
+__arg_copy20_14 _ -> __arg_copy3_14 0 >
+__arg_copy21_14 _ -> __arg_copy3_14 1 >
+__arg_copy20_14 0 -> __arg_copy20_14 0 <
+__arg_copy20_14 1 -> __arg_copy20_14 1 <
+__arg_copy21_14 0 -> __arg_copy21_14 0 <
+__arg_copy21_14 1 -> __arg_copy21_14 1 <
+__arg_copy20_14 # -> __arg_copy20_14 # <
+__arg_copy21_14 # -> __arg_copy21_14 # <
+__arg_copy20_14 $ -> __arg_copy20_14 $ <
+__arg_copy21_14 $ -> __arg_copy21_14 $ <
+
+__arg_copy3_14 2 -> __arg_copy1_14 2 <
+__arg_copy3_14 3 -> __arg_copy1_14 3 <
+__arg_copy3_14 0 -> __arg_copy3_14 0 >
+__arg_copy3_14 1 -> __arg_copy3_14 1 >
+__arg_copy3_14 $ -> __arg_copy3_14 $ >
+__arg_copy3_14 # -> __arg_copy3_14 # >
+
+__arg_finalize0_14 $ -> __arg_finalize1_14 $ <
+__arg_finalize0_14 # -> __arg_finalize1_14 # <
+__arg_finalize0_14 2 -> __arg_finalize0_14 0 >
+__arg_finalize0_14 3 -> __arg_finalize0_14 1 >
+
+__arg_finalize1_14 _ -> __call_stub_12 _ >
+__arg_finalize1_14 0 -> __arg_finalize1_14 0 <
+__arg_finalize1_14 1 -> __arg_finalize1_14 1 <
+__arg_finalize1_14 $ -> __arg_finalize1_14 $ <
+__arg_finalize1_14 # -> __arg_finalize1_14 # <
+__skip_call015 # -> __skip_call015 # >
+__skip_call015 _ -> __skip_call015 _ >
+__skip_call015 0 -> __skip_call015 0 >
+__skip_call015 1 -> __skip_call015 1 >
+__skip_call015 $ -> __skip_call116 $ >
+__skip_call116 # -> __skip_call116 # >
+__skip_call116 _ -> __skip_call116 _ >
+__skip_call116 0 -> __skip_call116 0 >
+__skip_call116 1 -> __skip_call116 1 >
+__skip_call116 $ -> __arg_copy_14 $ >
+__arg_3 _ -> __skip_call015 _ ^
+
+__call_stub_12 _ -> __call_stub_13 _ ^
+
+__call_stub_12 $ -> __call_stub_13 $ <
+
+__call_stub_12 # -> __call_stub_13 # <
+
+__call_stub_12 0 -> __call_stub_13 0 <
+__call_stub_12 1 -> __call_stub_13 1 <
+
+__call_stub_13 _ -> func_f0 $ ^
+
+
+func_f0 $ -> __arg_18 $ <
+
+
+__arg_copy_19 # -> __arg_finalize0_19 # ^
+__arg_copy_19 $ -> __arg_copy0_19 $ >
+__arg_copy_19 0 -> __arg_copy0_19 0 >
+__arg_copy_19 1 -> __arg_copy0_19 1 >
+
+__arg_copy0_19 $ -> __arg_copy1_19 $ <
+__arg_copy0_19 # -> __arg_copy1_19 # <
+__arg_copy0_19 0 -> __arg_copy0_19 0 >
+__arg_copy0_19 1 -> __arg_copy0_19 1 >
+
+__arg_copy1_19 $ -> __arg_finalize0_19 $ >
+__arg_copy1_19 # -> __arg_finalize0_19 # >
+
+__arg_copy1_19 0 -> __arg_copy20_19 2 <
+__arg_copy1_19 1 -> __arg_copy21_19 3 <
+
+__arg_copy20_19 _ -> __arg_copy3_19 0 >
+__arg_copy21_19 _ -> __arg_copy3_19 1 >
+__arg_copy20_19 0 -> __arg_copy20_19 0 <
+__arg_copy20_19 1 -> __arg_copy20_19 1 <
+__arg_copy21_19 0 -> __arg_copy21_19 0 <
+__arg_copy21_19 1 -> __arg_copy21_19 1 <
+__arg_copy20_19 # -> __arg_copy20_19 # <
+__arg_copy21_19 # -> __arg_copy21_19 # <
+__arg_copy20_19 $ -> __arg_copy20_19 $ <
+__arg_copy21_19 $ -> __arg_copy21_19 $ <
+
+__arg_copy3_19 2 -> __arg_copy1_19 2 <
+__arg_copy3_19 3 -> __arg_copy1_19 3 <
+__arg_copy3_19 0 -> __arg_copy3_19 0 >
+__arg_copy3_19 1 -> __arg_copy3_19 1 >
+__arg_copy3_19 $ -> __arg_copy3_19 $ >
+__arg_copy3_19 # -> __arg_copy3_19 # >
+
+__arg_finalize0_19 $ -> __arg_finalize1_19 $ <
+__arg_finalize0_19 # -> __arg_finalize1_19 # <
+__arg_finalize0_19 2 -> __arg_finalize0_19 0 >
+__arg_finalize0_19 3 -> __arg_finalize0_19 1 >
+
+__arg_finalize1_19 _ -> __return_call_17 _ >
+__arg_finalize1_19 0 -> __arg_finalize1_19 0 <
+__arg_finalize1_19 1 -> __arg_finalize1_19 1 <
+__arg_finalize1_19 $ -> __arg_finalize1_19 $ <
+__arg_finalize1_19 # -> __arg_finalize1_19 # <
+__skip_args020 0 -> __skip_args020 0 >
+__skip_args020 1 -> __skip_args020 1 >
+__skip_args020 # -> __arg_copy_19 # >
+__skip_call021 # -> __skip_call021 # >
+__skip_call021 _ -> __skip_call021 _ >
+__skip_call021 0 -> __skip_call021 0 >
+__skip_call021 1 -> __skip_call021 1 >
+__skip_call021 $ -> __skip_args020 $ >
+__arg_18 _ -> __skip_call021 _ ^
+
+__return_call_17 0 -> __native_return_22 0 ^
+__return_call_17 1 -> __native_return_22 1 ^
+
+__return_call_17 $ -> __native_return_22 $ ^
+
+__return_call_17 _ -> __native_return_22 _ ^
+
+
+__native_return_22 $ -> __native_return00_22 $ <
+__native_return_22 0 -> __native_return00_22 0 <
+__native_return_22 1 -> __native_return00_22 1 <
+
+__native_return00_22 _ -> __native_return0_22 % >
+
+__native_return0_22 $ -> __native_return1_22 _ >
+__native_return0_22 0 -> __native_return0_22 0 >
+__native_return0_22 1 -> __native_return0_22 1 >
+
+__native_return1_22 $ -> __copyrt0_22 _ ^
+__native_return1_22 # -> __native_return1_22 _ >
+__native_return1_22 0 -> __native_return1_22 _ >
+__native_return1_22 1 -> __native_return1_22 _ >
+
+__copyrt0_22 % -> __rfinalize_22 _ >
+__copyrt0_22 _ -> __copyrt0_22 _ <
+__copyrt0_22 0 -> __copyrt01_22 _ >
+__copyrt0_22 1 -> __copyrt11_22 _ >
+
+__copyrt01_22 $ -> __copyrt02_22 $ <
+__copyrt11_22 $ -> __copyrt12_22 $ <
+__copyrt01_22 # -> __copyrt02_22 # <
+__copyrt11_22 # -> __copyrt12_22 # <
+__copyrt01_22 0 -> __copyrt02_22 0 <
+__copyrt01_22 1 -> __copyrt02_22 1 <
+__copyrt11_22 0 -> __copyrt12_22 0 <
+__copyrt11_22 1 -> __copyrt12_22 1 <
+__copyrt01_22 _ -> __copyrt01_22 _ >
+__copyrt11_22 _ -> __copyrt11_22 _ >
+
+__copyrt02_22 _ -> __copyrt0_22 0 <
+__copyrt12_22 _ -> __copyrt0_22 1 <
+
+__rfinalize_22 0 -> __return_call_main 0 ^
+__rfinalize_22 1 -> __return_call_main 1 ^
+__rfinalize_22 $ -> __return_call_main $ ^
+__rfinalize_22 # -> __return_call_main # ^
+__rfinalize_22 _ -> __rfinalize_22 _ >
+__return_call_main 0 -> __native_return__main 0 ^
+__return_call_main 1 -> __native_return__main 1 ^
+
+__return_call_main $ -> __native_return__main $ ^
+
+__return_call_main _ -> __native_return__main _ >
+
+
+__native_return__main $ -> __native_return00__main $ <
+__native_return__main 0 -> __native_return00__main 0 <
+__native_return__main 1 -> __native_return00__main 1 <
+
+__native_return00__main _ -> __native_return0__main % >
+
+__native_return0__main $ -> __native_return1__main _ >
+__native_return0__main 0 -> __native_return0__main 0 >
+__native_return0__main 1 -> __native_return0__main 1 >
+
+__native_return1__main $ -> __copyrt0__main _ ^
+__native_return1__main # -> __native_return1__main _ >
+__native_return1__main 0 -> __native_return1__main _ >
+__native_return1__main 1 -> __native_return1__main _ >
+
+__copyrt0__main % -> __rfinalize__main _ >
+__copyrt0__main _ -> __copyrt0__main _ <
+__copyrt0__main 0 -> __copyrt01__main _ >
+__copyrt0__main 1 -> __copyrt11__main _ >
+
+__copyrt01__main $ -> __copyrt02__main $ <
+__copyrt11__main $ -> __copyrt12__main $ <
+__copyrt01__main # -> __copyrt02__main # <
+__copyrt11__main # -> __copyrt12__main # <
+__copyrt01__main 0 -> __copyrt02__main 0 <
+__copyrt01__main 1 -> __copyrt02__main 1 <
+__copyrt11__main 0 -> __copyrt12__main 0 <
+__copyrt11__main 1 -> __copyrt12__main 1 <
+__copyrt01__main _ -> __copyrt01__main _ >
+__copyrt11__main _ -> __copyrt11__main _ >
+
+__copyrt02__main _ -> __copyrt0__main 0 <
+__copyrt12__main _ -> __copyrt0__main 1 <
+
+__rfinalize__main 0 -> __native_fin 0 ^
+__rfinalize__main 1 -> __native_fin 1 ^
+__rfinalize__main $ -> __native_fin $ ^
+__rfinalize__main # -> __native_fin # ^
+__rfinalize__main _ -> __rfinalize__main _ >

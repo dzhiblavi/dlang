@@ -8,7 +8,9 @@
 
 class dparser {
     dlexer l;
-    std::map<std::string, sh_f_p> fs;
+
+    std::map<std::string, sh_f_p> fs = {
+    };
 
 private:
     void assert_next(TOKEN t);
@@ -17,13 +19,13 @@ private:
 
     std::unique_ptr<str> parse_str_value();
 
-    std::unique_ptr<call> parse_call_value(std::map<std::string, int>& args);
+    std::unique_ptr<call> parse_call_value(std::map<std::string, int>& args, int depth);
 
-    std::unique_ptr<arg> parse_arg_value(std::map<std::string, int>& args);
+    std::unique_ptr<arg> parse_arg_value(std::map<std::string, int>& args, int depth);
 
-    std::unique_ptr<chv> parse_chv_value();
+    std::unique_ptr<ife> parse_ife_value(std::map<std::string, int>& map, int depth);
 
-    sh_v_p parse_value(std::map<std::string, int>& args);
+    sh_v_p parse_value(std::map<std::string, int>& args, int depth);
 
     int parse_int();
 

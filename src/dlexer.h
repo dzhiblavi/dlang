@@ -24,6 +24,7 @@ enum TOKEN {
     WHILE,      // while
     IF,         // if
     ELSE,       // else
+    THEN,       // then
     EQ,         // =
     GR,         // >
     PLUS,       // +
