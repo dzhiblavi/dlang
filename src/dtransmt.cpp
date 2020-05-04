@@ -1,7 +1,12 @@
 #include "dtransmt.h"
 
-std::vector<std::pair<char, char>> dtransmt::st_ranges = {
+std::vector<std::pair<char, char>> dtransmt::st_ranges {
         { '0', '1' },
+};
+
+std::map<std::string, sh_f_p> dtransmt::native {
+        { "identity", sh_f_p(new native_func("identity", 1)) },
+        { "fst", sh_f_p(new native_func("fst", 1)) }
 };
 
 dtransmt::dtransmt(sh_p_p const &ast)
@@ -13,13 +18,32 @@ void dtransmt::append_all_file(std::string& s, std::filesystem::path const& p) {
             , std::istreambuf_iterator<char>());
 }
 
+void dtransmt::compile_native(std::string const& name, std::string &s, std::string const &uid, std::string const &ret) {
+    std::stringstream ss(dynamic_cast<native_func*>(native[name].get())->tmplt);
+    load_native_template(s, ss, uid, ret);
+}
+
 void dtransmt::load_native(std::string &s) {
     std::filesystem::path native_path("../mt_native");
     for (auto& p : std::filesystem::directory_iterator(native_path)) {
-        if (p.path().extension() != ".mtt") {
-            std::ifstream ifs(p);
+        std::ifstream ifs(p);
+        if (p.path().extension() != "") {
             load_native_template(s, ifs, "", "");
             s += "\n\n";
+        } else {
+            std::string name = p.path().filename();
+            std::string tmpl = std::string((std::istreambuf_iterator<char>(ifs))
+                    , std::istreambuf_iterator<char>());
+
+            native_func* nf;
+            if (native.find(name) == native.end()) {
+                nf = new native_func(name, 0);
+                native[name] = sh_f_p(nf);
+            } else {
+                nf = dynamic_cast<native_func*>(native[name].get());
+            }
+
+            nf->tmplt = std::move(tmpl);
         }
     }
 }
@@ -125,8 +149,7 @@ void dtransmt::load_ast(std::string& s) {
     s += return_point + " $ -> " + native_return + " $ ^\n\n";
     s += return_point + " _ -> " + native_return + " _ >\n\n";
 
-    std::ifstream ifs("../mt_native/return_native.mtt");
-    dtransmt::load_native_template(s, ifs, ur, "__native_fin");
+    dtransmt::compile_native("__native_return_", s, ur, "__native_fin");
 }
 
 std::string dtransmt::compile() {

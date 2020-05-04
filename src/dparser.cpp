@@ -1,10 +1,12 @@
 #include "dparser.h"
+#include "dtransmt.h"
 
 namespace {
 [[noreturn]] void fail(std::string const& why) {
     throw std::runtime_error("parse failed: " + why);
 }
 }
+
 
 dparser::dparser(dlexer &l)
     : l(l) {}
@@ -19,7 +21,7 @@ int dparser::parse_int() {
     return atoi(l.next_token().second.c_str());
 }
 
-sh_f_p dparser::parse_declaration() {
+sh_uf_p dparser::parse_declaration() {
     assert_next(IDENT);
     dlexer::token t = l.next_token();
     dlexer::token tt = l.next_token();
@@ -33,7 +35,7 @@ sh_f_p dparser::parse_declaration() {
     std::string const& name = t.second;
     int nargs = parse_int();
 
-    return std::make_shared<func>(name, nargs);
+    return std::make_shared<user_func>(name, nargs);
 }
 
 std::map<std::string, int> dparser::parse_args_declaration(int nargs) {
@@ -66,9 +68,15 @@ std::unique_ptr<call> dparser::parse_call_value(std::map<std::string, int>& args
     assert_next(IDENT);
     std::string const& fname = l.next_token().second;
 
-    if (fs.find(fname) == fs.end())
+    sh_f_p f;
+    if (fs.find(fname) != fs.end()) {
+        f = fs[fname];
+    } else if (dtransmt::native.find(fname) != dtransmt::native.end()) {
+        f = dtransmt::native[fname];
+    } else {
         fail("unknown identifier: " + fname);
-    sh_f_p f = fs[fname];
+    }
+
 
     std::unique_ptr<call> c = std::make_unique<call>(f);
     for (int i = 0; i < f->nargs; ++i) {
@@ -125,7 +133,7 @@ void dparser::parse_definition() {
 
     if (fs.find(name) == fs.end())
         fail("unknown identifier: " + name);
-    sh_f_p f = fs[name];
+    sh_uf_p f = fs[name];
 
     std::map<std::string, int> args = parse_args_declaration(f->nargs);
     f->argnames.resize(f->nargs);
@@ -141,7 +149,7 @@ void dparser::parse_definition() {
 
 sh_p_p dparser::parse() {
     while (l.lookup().first != END) {
-        sh_f_p f = parse_declaration();
+        sh_uf_p f = parse_declaration();
         if (!f)
             break;
         if (fs.find(f->name) != fs.end())
@@ -151,6 +159,7 @@ sh_p_p dparser::parse() {
     while (l.lookup().first != END) {
         parse_definition();
     }
+
     return std::make_shared<program>(fs);
 }
 

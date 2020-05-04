@@ -20,26 +20,50 @@ typedef std::shared_ptr<value> sh_v_p;
 struct func : ast_node {
     std::string name;
     int nargs;
-    sh_v_p value;
     std::vector<std::string> argnames;
 
 public:
     func(std::string const& name, int nargs);
 
-    std::string func_name(std::string const& uid);
+    virtual std::string func_name(std::string const& uid) = 0;
 
-    void compile(std::string const& uid, std::string const& ret, std::string& s);
+    virtual void compile(std::string const& uid, std::string const& ret, std::string& s) = 0;
+};
+
+struct user_func : func {
+    sh_v_p value;
+
+public:
+    user_func(std::string const& name, int nargs);
+
+    std::string func_name(std::string const& uid) override;
+
+    void compile(std::string const& uid, std::string const& ret, std::string& s) override;
+
+    std::string to_string() const override;
+};
+
+struct native_func : func {
+    std::string tmplt;
+
+public:
+    native_func(std::string const& name, int nargs);
+
+    std::string func_name(std::string const& uid) override;
+
+    void compile(std::string const& uid, std::string const& ret, std::string& s) override;
 
     std::string to_string() const override;
 };
 
 typedef std::shared_ptr<func> sh_f_p;
+typedef std::shared_ptr<user_func> sh_uf_p;
 
 struct program : ast_node {
-    std::map<std::string, sh_f_p> funcs;
+    std::map<std::string, sh_uf_p> funcs;
 
 public:
-    program(std::map<std::string, sh_f_p> const& funcs);
+    program(std::map<std::string, sh_uf_p> const& funcs);
 
     std::string to_string() const override;
 };

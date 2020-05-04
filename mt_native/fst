@@ -1,0 +1,10 @@
+% fst function template
+
+fst@ $ -> __fst1_@ _ >
+
+__fst1_@ $ -> __native_err $ ^
+__fst1_@ * -> __fst2*_@ _ >
+
+__fst2*_@ $ -> & * ^
+__fst2*_@ ~ -> __fst2*_@ _ >
+

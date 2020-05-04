@@ -1,0 +1,29 @@
+% identity function template
+
+identity@ $ -> __identity_@1 $ >
+
+__identity_@1 $ -> __copy0_@ _ <
+__identity_@1 * -> __identity_@1 * >
+
+__copy0_@ $ -> __copy_finalize_@ _ >
+__copy0_@ _ -> __copy0_@ _ <
+__copy0_@ * -> __copy1*_@ _ >
+
+__copy1*_@ $ -> __copy2*_@ $ <
+__copy1*_@ 2 -> __copy2*_@ 2 <
+__copy1*_@ 3 -> __copy2*_@ 3 <
+__copy1*_@ _ -> __copy1*_@ _ >
+
+__copy20_@ _ -> __copy0_@ 2 <
+__copy21_@ _ -> __copy0_@ 3 <
+
+__copy_finalize_@ _ -> __copy_finalize_@ _ >
+__copy_finalize_@ 2 -> __copy_finalize_@ 0 >
+__copy_finalize_@ 3 -> __copy_finalize_@ 1 >
+__copy_finalize_@ $ -> __copy_finalize1_@ $ <
+__copy_finalize_@ # -> __copy_finalize1_@ # <
+
+__copy_finalize1_@ * -> __copy_finalize1_@ * <
+__copy_finalize1_@ _ -> & _ >
+
+

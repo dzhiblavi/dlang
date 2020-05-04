@@ -20,23 +20,26 @@ std::string uid(void* s) {
 func::func(std::string const &name, int nargs)
     : name(name), nargs(nargs) {}
 
-std::string func::to_string() const {
+
+std::string user_func::func_name(std::string const& uid) {
+    return "func_" + name + uid;
+}
+
+user_func::user_func(std::string const &name, int nargs)
+    : func(name, nargs) {}
+
+std::string user_func::to_string() const {
     std::string s = name + " : " + std::to_string(nargs);
     if (value) {
         s += "\n" + name + " ";
-        for (auto &an : argnames) {
+        for (auto &an : argnames)
             s += an + " ";
-        }
         s += "= " + value->to_string();
     }
     return s;
 }
 
-std::string func::func_name(std::string const& uid) {
-    return "func_" + name + uid;
-}
-
-void func::compile(std::string const& uid, std::string const& ret, std::string& s) {
+void user_func::compile(std::string const& uid, std::string const& ret, std::string& s) {
     if (!value)
         throw std::runtime_error("no function definition: " + name);
     s += func_name(uid) + " $ -> " + value->node_name() + " $ <\n\n";
@@ -44,14 +47,31 @@ void func::compile(std::string const& uid, std::string const& ret, std::string& 
 }
 
 
-program::program(std::map<std::string, sh_f_p> const &funcs)
+native_func::native_func(std::string const &name, int nargs)
+    : func(name, nargs) {}
+
+void native_func::compile(const std::string &uid, const std::string &ret, std::string &s) {
+    assert(!tmplt.empty());
+    std::stringstream ss(tmplt);
+    dtransmt::load_native_template(s, ss, uid, ret);
+}
+
+std::string native_func::func_name(std::string const& uid) {
+    return name + uid;
+}
+
+std::string native_func::to_string() const {
+    return name + " : " + std::to_string(nargs);
+}
+
+
+program::program(std::map<std::string, sh_uf_p> const &funcs)
     : funcs(funcs) {}
 
 std::string program::to_string() const {
     std::string s;
-    for (auto& f : funcs) {
+    for (auto& f : funcs)
         s += f.second->to_string() + "\n\n";
-    }
     return s;
 }
 
@@ -72,9 +92,8 @@ void str::compile(std::string &s, std::string const& ret) {
         s += ith(0) + " _ -> " + ret + " _ ^\n";
     } else if (val.size() > 1) {
         s += ith(0) + " _ -> " + ith(1) + " " + val.back() + " <\n";
-        for (int i = val.size() - 2, j = 1; i >= 1; --i, ++j) {
+        for (int i = val.size() - 2, j = 1; i >= 1; --i, ++j)
             s += ith(j) + " _ -> " + ith(j + 1) + " " + val[i] + " <\n";
-        }
         s += ith(val.size() - 1) + " _ -> " + ret + " " + val[0] + " ^\n";
     } else {
         s += ith(val.size() - 1) + " _ -> " + ret + " " + val[0] + " ^\n";
@@ -135,6 +154,12 @@ void call::compile(std::string &s, const std::string &ret) {
         s += node_name() + " _ -> " + f->func_name(ud) + " $ ^\n\n";
     }
 
+    if (dynamic_cast<native_func*>(f.get())) {
+        std::cout << "native: " << f->name << std::endl;
+        f->compile(ud, ret, s);
+        return;
+    }
+
     std::string return_point = "__return_call_" + nextuid();
     f->compile(ud, return_point, s);
 
@@ -144,8 +169,7 @@ void call::compile(std::string &s, const std::string &ret) {
     s += return_point + " $ -> " + native_return + " $ ^\n\n";
     s += return_point + " _ -> " + native_return + " _ ^\n\n";
 
-    std::ifstream ifs("../mt_native/return_native.mtt");
-    dtransmt::load_native_template(s, ifs, ur, ret);
+    dtransmt::compile_native("__native_return_", s, ur, ret);
 }
 
 std::string call::to_string() const {
@@ -218,8 +242,8 @@ std::string skip_args(int index, std::string& s, std::string const& ret) {
 void arg::compile(std::string &s, const std::string &ret) {
     std::string ud = nextuid();
     std::string arg_copy = "__arg_copy_" + ud;
-    std::ifstream ifs("../mt_native/arg_native.mtt");
-    dtransmt::load_native_template(s, ifs, ud, ret);
+
+    dtransmt::compile_native("__arg_copy_", s, ud, ret);
 
     std::string sk_arg_entry = skip_args(index, s, arg_copy);
     std::string sk_call_entry = skip_calls(depth, s, sk_arg_entry);
@@ -253,8 +277,8 @@ void ife::compile(std::string &s, const std::string &ret) {
     cond->compile(s, cond_ret);
     pos->compile(s, ret);
     neg->compile(s, ret);
-    std::ifstream ifs("../mt_native/clear.mtt");
-    dtransmt::load_native_template(s, ifs, ud, clear_return);
+
+    dtransmt::compile_native("__clear_", s, ud, ret);
 }
 
 std::string ife::to_string() const {

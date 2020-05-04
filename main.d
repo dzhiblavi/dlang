@@ -1,7 +1,7 @@
 main : 2
-f : 3
+f : 2
+id : 1
 
-main a b = f a "" b
+main a b = f fst a fst b
 
-f x y z = y
-
+f x y = y

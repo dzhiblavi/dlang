@@ -9,8 +9,7 @@
 class dparser {
     dlexer l;
 
-    std::map<std::string, sh_f_p> fs = {
-    };
+    std::map<std::string, sh_uf_p> fs;
 
 private:
     void assert_next(TOKEN t);
@@ -29,7 +28,7 @@ private:
 
     int parse_int();
 
-    sh_f_p parse_declaration();
+    sh_uf_p parse_declaration();
 
     void parse_definition();
 
